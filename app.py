@@ -73,11 +73,20 @@ def send_request(target_ip, start_num, stop_num, color):
     state = {"seg": [{"id": 0, "start": start_num, "stop": stop_num, "col": [color]}]}
     response = requests.post(url, json=state)
 
-def lights(position, pi):
-    start_num = int(position) - 1
-    send_request(pi, start_num, int(position), [255, 255, 255]) # Convert color value to [0, 0, 0, 255] to only use white part of LED (RGBW LEDs only).
-    time.sleep(5) # Change how long the LED stays on for.
-    send_request(pi, 0, 60, [0, 255, 0])
+def lights(position, pi):  
+  start_num = int(position) * 3 - 3
+  end_num = int(position) * 3 
+  send_request(pi, start_num, end_num, [0, 0, 255])  
+  time.sleep(10)  
+  send_request(pi, 0, 60, [0, 0, 0])
+
+
+
+#def lights(position, pi):
+#    start_num = int(position) - 1
+#    send_request(pi, start_num, int(position), [255, 255, 255]) # Convert color value to [0, 0, 0, 255] to only use white part of LED (RGBW LEDs only).
+#    time.sleep(5) # Change how long the LED stays on for.
+#    send_request(pi, 0, 60, [0, 255, 0])
 
 # Running the Flask application
 if __name__ == '__main__':
